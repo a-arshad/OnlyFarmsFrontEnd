@@ -5,6 +5,18 @@ class ListingTable extends React.Component {
     constructor() {
         super();
         // TODO: Whenever the backend is ready the listings data should be retrieved from an endpoint
+        const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        let fetched_quantities = fetch(proxyurl + "http://onlyfarms-backend.eba-5cfh3k2e.us-east-1.elasticbeanstalk.com/farm/stock/1")
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(
+                e => {
+                    console.log(e);
+                    return e;
+                }
+            );
+        console.log(fetched_quantities);
+        
         this.state = {
             listings: [
                 {name: 'Apple', description: 'YUM', price: '69', quantity: '5'},
