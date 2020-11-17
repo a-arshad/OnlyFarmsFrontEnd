@@ -4,6 +4,7 @@ import Listing from './Listing'
 class ListingTable extends React.Component {
     constructor() {
         super();
+        // TODO: Whenever the backend is ready the listings data should be retrieved from an endpoint
         this.state = {
             listings: [
                 {name: 'Apple', description: 'YUM', price: '69', quantity: '5'},
@@ -16,11 +17,14 @@ class ListingTable extends React.Component {
     render() {
         let listings = [];
         this.state.listings.forEach(
-            element => listings.push(<Listing name={element.name} 
+            element => listings.push(<Listing
+                                            key={element.name} // TODO: change this to product id
+                                            name={element.name} 
                                             description={element.description}
                                             price={element.price}
                                             quantity={element.quantity}
                                             isConsumer={this.props.isConsumer}
+                                            isEditMode={this.props.isEditMode}
                                     />));
 
         return (
