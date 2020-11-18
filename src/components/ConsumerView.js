@@ -15,7 +15,7 @@ class ConsumerView extends Component {
         const proxyurl = "https://cors-anywhere.herokuapp.com/";
         let fetched_quantities = fetch(HOST + STOCK_ENDPOINT + "1", request)
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => console.log("output: " + data))
             .catch(
                 e => {
                     console.log(e);
