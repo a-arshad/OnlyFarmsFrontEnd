@@ -1,4 +1,5 @@
 import React from 'react';
+import { HOST, STOCK_ENDPOINT } from '../constants/url';
 import Listing from './Listing'
 
 class ListingTable extends React.Component {
@@ -6,7 +7,7 @@ class ListingTable extends React.Component {
         super();
         // TODO: Whenever the backend is ready the listings data should be retrieved from an endpoint
         const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        let fetched_quantities = fetch(proxyurl + "http://onlyfarms-backend.eba-5cfh3k2e.us-east-1.elasticbeanstalk.com/farm/stock/1")
+        let fetched_quantities = fetch(proxyurl + HOST + STOCK_ENDPOINT + "1")
             .then(response => response.json())
             .then(data => console.log(data))
             .catch(
