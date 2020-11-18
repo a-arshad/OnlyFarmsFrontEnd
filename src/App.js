@@ -1,9 +1,6 @@
 import './App.css';
 import React from "react";
-import {
-  Route,
-  HashRouter
-} from "react-router-dom";
+import { Route, HashRouter } from "react-router-dom";
 import HomeView from "./components/HomeView";
 import ConsumerView from "./components/ConsumerView";
 import StoreView from "./components/StoreView";
