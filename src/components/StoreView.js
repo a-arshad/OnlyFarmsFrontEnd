@@ -2,49 +2,100 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import ListingTable from './ListingTable'
-import { HOST, STOCK_ENDPOINT } from '../constants/url';
+import { HOST_PREFIX, HOST, STOCK_ENDPOINT } from '../constants/url';
 
 class StoreView extends Component {
     constructor() {
         super();
-        const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        let fetched_quantities = fetch(proxyurl + HOST + STOCK_ENDPOINT + "1")
+        this.state = {
+            isEditMode: false,
+            listings: [],
+            oldListings: []
+        };
+    }
+
+    componentDidMount() {
+        console.log("suffer")
+        fetch(HOST_PREFIX + HOST + STOCK_ENDPOINT)
             .then(response => response.json())
-            .then(data => console.log(data.amount))
+            .then(data => this.setState({
+                listings: data.stocks,
+                oldListings: data.stocks
+            }))
             .catch(
                 e => {
                     console.log(e);
                     return e;
                 }
             );
-        console.log(fetched_quantities['amount']);
-        this.state = {
+    }
+
+    updateStock(stockItemId, newQuantity) {
+        var i;
+        var newListings = []
+        for (i = 0; i < this.state.listings.length; i++) {
+            var listing = JSON.parse(JSON.stringify(this.state.listings[i]));
+
+            if (listing.stockItemId === stockItemId) {
+
+                listing.amount = newQuantity;
+            }
+            newListings.push(listing);
+        }
+        this.setState({
+            listings: newListings
+        });
+    }
+
+    onConfirm() {
+        this.state.listings.forEach((listing) =>
+            fetch(HOST_PREFIX + HOST + STOCK_ENDPOINT + listing.stockItemId, 
+                {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(listing)
+                })
+                .then((response) => console.log(response))
+                .catch(
+                    e => {
+                        console.log(e);
+                        return e;
+                    }
+                ));
+        this.setState({
             isEditMode: false,
-            listings: [
-                {name: 'Apple', description: 'YUM', price: '69', quantity: fetched_quantities.amount},
-                {name: 'Banana', description: 'YUMMY', price: '5', quantity: '6'},
-                {name: 'Carrot', description: 'YumChampion', price: '2', quantity: '7'}
-            ]
-        };
+            oldListings: this.state.listings
+        });
+    }
+
+    onCancel() {
+        console.log("listings: " + this.state.listings);
+        console.log("oldlistings: " + this.state.oldListings);
+        this.setState({
+            isEditMode: false,
+            listings: this.state.oldListings
+        });
     }
 
     render() {
+        console.log("render")
         return (
             <div>
                 <h1>This is your Store!</h1>
                 <NavLink exact to="/" style={{paddingRight: 20}}>Home</NavLink>
                 <NavLink to="/consumer">ConsumerView</NavLink>
-                <ListingTable isEditMode={this.state.isEditMode} listings={this.state.listings}/>
+                <ListingTable isEditMode={this.state.isEditMode} listings={this.state.listings} updateStock={this.updateStock.bind(this)}/>
                 {this.state.isEditMode ? 
                     <div>
-                        <Button onClick={() => this.setState({isEditMode: false})} style={{marginRight: 20}}>Cancel</Button>
-                        <Button onClick={() => this.setState({isEditMode: false})}>Confirm</Button>
+                        <Button onClick={() => this.onCancel()} style={{marginRight: 20}}>Cancel</Button>
+                        <Button onClick={() => this.onConfirm()}>Confirm</Button>
                     </div>
                     : <Button onClick={() => this.setState({isEditMode: true})}>Edit store</Button>}
             </div>
         );
     }
-
 }
 
 export default StoreView;
