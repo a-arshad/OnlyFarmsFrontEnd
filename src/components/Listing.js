@@ -6,13 +6,6 @@ import './Listing.css'
 import { Button } from 'react-bootstrap';
 
 class Listing extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            quantity: this.props.quantity,
-        };
-    }
-
     render() {
         return(
             <div>
@@ -30,8 +23,8 @@ class Listing extends React.Component {
                                     <h4 className="desc">{this.props.description}</h4>
                                     <h4 className="desc">${this.props.price}</h4>
                                     {this.props.isEditMode ? 
-                                        <input type="number" min="0" className="desc" defaultValue={this.state.quantity} onChange={event => this.setState({quantity: event.target.value})}/>
-                                        : <h4 className="desc">{this.state.quantity}</h4>}
+                                        <input type="number" min="0" className="desc" defaultValue={this.props.amount} onChange={event => this.props.updateStock(this.props.name, event.target.value)}/>
+                                        : <h4 className="desc">{this.props.amount}</h4>}
                                 </Col>
                                 <Col>
                                     {this.props.isConsumer && <Button onClick={() => alert("This should be added to cart")}>Add to cart</Button>}
