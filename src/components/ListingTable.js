@@ -6,8 +6,7 @@ class ListingTable extends React.Component {
     constructor() {
         super();
         // TODO: Whenever the backend is ready the listings data should be retrieved from an endpoint
-        const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        let fetched_quantities = fetch(proxyurl + HOST + STOCK_ENDPOINT + "1")
+        let fetched_quantities = fetch(HOST + STOCK_ENDPOINT + "1")
             .then(response => response.json())
             .then(data => console.log(data))
             .catch(
