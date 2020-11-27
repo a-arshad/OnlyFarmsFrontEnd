@@ -7,6 +7,7 @@ import ConsumerView from './components/ConsumerView';
 import StoreView from './components/StoreView';
 import RegisterView from './components/RegisterView';
 import LoginView from './components/LoginView';
+import SecurityView from './components/SecurityView';
 
 class App extends Component {
   constructor() {
@@ -43,6 +44,7 @@ class App extends Component {
             <Route path="/store" render={(props) => <StoreView {...props} auth={loginProps} /> } />
             <Route path="/register" render={(props) => <RegisterView {...props} auth={loginProps} /> } />
             <Route path="/login" render={(props) => <LoginView {...props} auth={loginProps} /> } />
+            <Route path="/security" render={(props) => <SecurityView {...props} auth={loginProps} /> } />
           </div>
         </div>
       </HashRouter>
