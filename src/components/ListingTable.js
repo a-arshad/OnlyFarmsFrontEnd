@@ -6,14 +6,16 @@ class ListingTable extends React.Component {
         let listings = [];
         this.props.listings.forEach(
             element => listings.push(<Listing
-                                            key={element.stockItemId} // TODO: change this to product id
-                                            name={element.stockItemId} 
-                                            description={element.stockItemId}
-                                            price={element.pricePer}
-                                            amount={element.amount}
+                                            key={element["inventoryId (S)"]} // TODO: change this to product id
+                                            id={element["inventoryId (S)"]}
+                                            name={element["productName (S)"]} 
+                                            description={element["productDesc (S)"]}
+                                            price={element["price (N)"] + " " + element["priceUnit (S)"]}
+                                            amount={element["amount (N)"]}
                                             isConsumer={this.props.isConsumer}
                                             isEditMode={this.props.isEditMode}
                                             updateStock={this.props.updateStock}
+                                            addToCart={this.props.addToCart}
                                     />));
 
         return (
