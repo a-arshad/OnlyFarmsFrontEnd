@@ -20,14 +20,14 @@ class Listing extends React.Component {
                                     <h4>Quantity: </h4>
                                 </Col>
                                 <Col>
-                                    <h4 className="desc">{this.props.description}</h4>
-                                    <h4 className="desc">${this.props.price}</h4>
+                                    <h5 className="desc">{this.props.description}</h5>
+                                    <h5 className="desc">${this.props.price}</h5>
                                     {this.props.isEditMode ? 
                                         <input type="number" min="0" className="desc" defaultValue={this.props.amount} onChange={event => this.props.updateStock(this.props.name, event.target.value)}/>
-                                        : <h4 className="desc">{this.props.amount}</h4>}
+                                        : <h5 className="desc">{this.props.amount}</h5>}
                                 </Col>
                                 <Col>
-                                    {this.props.isConsumer && <Button onClick={() => alert("This should be added to cart")}>Add to cart</Button>}
+                                    {this.props.isConsumer && <Button onClick={() => this.props.addToCart(this.props.id, this.props.name)}>Add to cart</Button>}
                                 </Col>
                             </Row>
                         </div>  
