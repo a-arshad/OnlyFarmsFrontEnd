@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import ListingTable from './ListingTable'
-import { HOST_PREFIX, HOST, STOCK_ENDPOINT } from '../constants/url';
+import { INVENTORY_MS } from '../constants/url';
 
 class StoreView extends Component {
     constructor() {
@@ -14,19 +14,26 @@ class StoreView extends Component {
     }
 
     componentDidMount() {
-        console.log("suffer")
-        fetch(HOST_PREFIX + HOST + STOCK_ENDPOINT)
-            .then(response => response.json())
-            .then(data => this.setState({
-                listings: data.stocks,
-                oldListings: data.stocks
-            }))
-            .catch(
-                e => {
-                    console.log(e);
-                    return e;
-                }
-            );
+        console.log("getting store inventory...");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+            "storeId": "1"
+        });
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        // make API call with parameters and use promises to get response
+        fetch(INVENTORY_MS + "/inventory", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                var l = JSON.parse(result)[0]
+                this.setState({listings: l, oldListings:l});
+            })
+            .catch(error => console.log('error', error));
     }
 
     updateStock(stockItemId, newQuantity) {
@@ -45,23 +52,45 @@ class StoreView extends Component {
         });
     }
 
+    updateInventoryItem(listing) {
+        // "inventoryId":
+        // "amount": 
+        // "price": 
+        // "priceUnit": 
+        // "productDesc": 
+        // "productName":
+        console.log(listing);
+        console.log("updating...");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+            "inventoryId": listing.inventoryId,
+            "amount": listing.amount,
+            "price": listing.price,
+            "priceUnit": listing.priceUnit,
+            "productDesc": listing.productDesc,
+            "productName": listing.productName
+        });
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        // make API call with parameters and use promises to get response
+        fetch(INVENTORY_MS + "/updateinventory", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                var l = JSON.parse(result)
+                console.log(l);
+            })
+            .catch(error => console.log('error', error));
+    }
+
     onConfirm() {
-        this.state.listings.forEach((listing) =>
-            fetch(HOST_PREFIX + HOST + STOCK_ENDPOINT + listing.stockItemId, 
-                {
-                    method: "PUT",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(listing)
-                })
-                .then((response) => console.log(response))
-                .catch(
-                    e => {
-                        console.log(e);
-                        return e;
-                    }
-                ));
+        console.log(this.state.listings);
+        this.state.listings.forEach((listing) => this.updateInventoryItem(listing));
+
         this.setState({
             isEditMode: false,
             oldListings: this.state.listings
