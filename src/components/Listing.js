@@ -23,7 +23,7 @@ class Listing extends React.Component {
                                     <h5 className="desc">{this.props.description}</h5>
                                     <h5 className="desc">${this.props.price}</h5>
                                     {this.props.isEditMode ? 
-                                        <input type="number" min="0" className="desc" defaultValue={this.props.amount} onChange={event => this.props.updateStock(this.props.name, event.target.value)}/>
+                                        <input type="number" min="0" className="desc" defaultValue={this.props.amount} onChange={event => this.props.updateStock(this.props.id, event.target.value)}/>
                                         : <h5 className="desc">{this.props.amount}</h5>}
                                 </Col>
                                 <Col>

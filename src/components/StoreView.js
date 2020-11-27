@@ -41,8 +41,7 @@ class StoreView extends Component {
         var newListings = []
         for (i = 0; i < this.state.listings.length; i++) {
             var listing = JSON.parse(JSON.stringify(this.state.listings[i]));
-
-            if (listing.stockItemId === stockItemId) {
+            if (listing.inventoryId === stockItemId) {
                 listing.amount = newQuantity;
             }
             newListings.push(listing);
