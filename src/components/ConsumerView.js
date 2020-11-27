@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
 import ListingTable from './ListingTable';
 import { HOST, STOCK_ENDPOINT } from '../constants/url';
 
@@ -90,8 +89,6 @@ class ConsumerView extends Component {
         return (
             <div>
                 <h1>User {this.state.listings[0]["storeId (S)"]}'s Store</h1>
-                <NavLink exact to="/" style={{paddingRight: 20}}>Home</NavLink>
-                <NavLink to="/store">StoreView</NavLink>
                 <ListingTable isConsumer={true} listings={this.state.listings} addToCart={this.addToCart.bind(this)}/>
                 <Button onClick={() => alert("Checkout clicked")}>Checkout</Button>
                 <div><h4>Cart:</h4> {cartItems}</div>

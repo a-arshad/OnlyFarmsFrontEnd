@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
 import ListingTable from './ListingTable'
 import { HOST_PREFIX, HOST, STOCK_ENDPOINT } from '../constants/url';
 
@@ -82,9 +81,7 @@ class StoreView extends Component {
         console.log("render")
         return (
             <div>
-                <h1>This is your Store!</h1>
-                <NavLink exact to="/" style={{paddingRight: 20}}>Home</NavLink>
-                <NavLink to="/consumer">ConsumerView</NavLink>
+                <h1>This is your Store Page!</h1>
                 <ListingTable isEditMode={this.state.isEditMode} listings={this.state.listings} updateStock={this.updateStock.bind(this)}/>
                 {this.state.isEditMode ? 
                     <div>
