@@ -14,7 +14,7 @@ class SecurityView extends Component {
 	}
 
 	checkUser(props) {
-		return props.location.state.user.challengeParam
+		return props.location.state && props.location.state.user.challengeParam
 			? props.location.state.user.challengeParam.question
 			: "";
 	}
@@ -30,7 +30,7 @@ class SecurityView extends Component {
 			})
 			.catch((err) => {
 				console.log(err);
-                this.props.history.push("/login");
+				this.props.history.push("/login");
 			});
 	};
 

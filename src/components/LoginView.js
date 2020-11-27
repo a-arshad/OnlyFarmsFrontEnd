@@ -15,8 +15,8 @@ class LoginView extends Component {
 			errors: {
 				cognito: null,
 			},
-        };
-        this.handleSubmit = this.handleSubmit.bind(this);
+		};
+		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	clearErrorState = () => {
@@ -77,7 +77,6 @@ class LoginView extends Component {
 				<h1>Login</h1>
 				<Form onSubmit={this.handleSubmit}>
 					<Form.Group controlId="email">
-						<Form.Label>Email Address</Form.Label>
 						<Form.Control
 							type="email"
 							placeholder="Enter email"
@@ -85,10 +84,10 @@ class LoginView extends Component {
 						/>
 					</Form.Group>
 					<Form.Group controlId="password" onChange={this.onInputChange}>
-						<Form.Label>Password</Form.Label>
 						<Form.Control type="password" placeholder="Password" />
 					</Form.Group>
-					<NavLink to="/Login">Forgot Password?</NavLink>
+					<NavLink to="/forgotpassword">Forgot Password?</NavLink>
+					<br />
 					<br />
 					<Button variant="primary" type="submit">
 						Login
