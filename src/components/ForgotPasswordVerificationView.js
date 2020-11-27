@@ -28,8 +28,6 @@ class ForgotPasswordVerificationView extends Component {
 
 	passwordVerificationHandler = async (event) => {
 		event.preventDefault();
-
-		// Form validation
 		this.clearErrorState();
 		const error = Validate(event, this.state);
 		if (error) {
@@ -37,15 +35,13 @@ class ForgotPasswordVerificationView extends Component {
 				errors: { ...this.state.errors, ...error },
 			});
 		}
-		// AWS Cognito integration here
-
 		try {
 			await Auth.forgotPasswordSubmit(
 				this.state.email,
 				this.state.verificationcode,
 				this.state.newpassword
 			);
-			this.props.history.push("/changepasswordconfirmation");
+			this.props.history.push("/passwordconfirm");
 		} catch (error) {
 			console.log(error);
 		}

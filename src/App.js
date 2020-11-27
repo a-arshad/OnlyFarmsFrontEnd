@@ -11,6 +11,7 @@ import SecurityView from "./components/SecurityView";
 import ForgotPasswordView from "./components/ForgotPasswordView";
 import { Auth } from "aws-amplify";
 import ForgotPasswordVerificationView from "./components/ForgotPasswordVerificationView";
+import ChangePasswordConfirmView from "./components/ChangePasswordConfirmView";
 
 class App extends Component {
 	constructor() {
@@ -100,6 +101,12 @@ class App extends Component {
 										{...props}
 										auth={loginProps}
 									/>
+								)}
+							/>
+							<Route
+								path="/passwordconfirm"
+								render={(props) => (
+									<ChangePasswordConfirmView {...props} auth={loginProps} />
 								)}
 							/>
 						</div>
