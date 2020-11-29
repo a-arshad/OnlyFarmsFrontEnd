@@ -6,6 +6,14 @@ import './Listing.css'
 import { Button } from 'react-bootstrap';
 
 class Listing extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            selectionValue: null
+        };
+
+    }
+
     render() {
         return(
             <div>
@@ -27,7 +35,18 @@ class Listing extends React.Component {
                                         : <h5 className="desc">{this.props.amount}</h5>}
                                 </Col>
                                 <Col>
-                                    {this.props.isConsumer && <Button onClick={() => this.props.addToCart(this.props.id, this.props.name)}>Add to cart</Button>}
+                                    {this.props.isConsumer && <div>
+                                        <Button onClick={() => 
+                                            this.props.addToCart(this.props.id, this.props.name, parseInt(this.state.selectionValue))
+                                            }>
+                                            Add to cart
+                                        </Button>
+                                        <select onChange={e => this.setState({selectionValue: e.target.value})}>
+                                            {[...Array(parseInt(this.props.amount)).keys()].map(i => (
+                                                <option key={i+1} value={i+1}>{i+1}</option>
+                                            ))}
+                                        </select>
+                                    </div>}
                                 </Col>
                             </Row>
                         </div>  
