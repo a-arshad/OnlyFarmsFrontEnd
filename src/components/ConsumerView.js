@@ -81,13 +81,13 @@ class ConsumerView extends Component {
             .catch(error => console.log('error', error));
     }
 
-    addToCart(inventoryId, productName) {
+    addToCart(inventoryId, productName, quantity) {
         var newCart = this.state.cart;
         // console.log("test add item from inventory");
         // this.updateCart(inventoryId, 3, 1, 1); //change amount. check if its already in cart
         for (let i=0; i < newCart.length; i++) {
             if (newCart[i].inventoryId === inventoryId) {
-                newCart[i].quantity += 1;
+                newCart[i].quantity += quantity;
                 this.setState({
                     cart: newCart
                 })
@@ -95,7 +95,7 @@ class ConsumerView extends Component {
             }
         }
 
-        var newCartItem = {'inventoryId': inventoryId, 'productName': productName, 'quantity': 1};
+        var newCartItem = {'inventoryId': inventoryId, 'productName': productName, 'quantity': quantity};
         newCart.push(newCartItem);
         this.setState({
             cart: newCart
