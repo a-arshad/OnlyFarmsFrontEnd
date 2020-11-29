@@ -1,4 +1,2 @@
-export const HOST = "http://474onlyfarmsbackend-env.eba-4hm5pyxp.us-east-1.elasticbeanstalk.com/";
-export const STOCK_ENDPOINT = "farm/stock/";
-export const HOST_PREFIX = "https://cors-anywhere.herokuapp.com/";
-
+export const INVENTORY_MS = "https://7ybj2whv04.execute-api.us-east-1.amazonaws.com/dev"
+export const CART_MS = "https://gr01no9opa.execute-api.us-east-1.amazonaws.com/dev"
