@@ -5,16 +5,13 @@ import { Auth } from "aws-amplify";
 class SecurityView extends Component {
 	constructor() {
 		super();
-		// super(props);
 		this.state = {
 			answer: "",
-			// question: this.props.location.state.user.challengeParam.question
 		};
-		// this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	checkUser(props) {
-		return props.location.state.user.challengeParam
+		return props.location.state && props.location.state.user.challengeParam
 			? props.location.state.user.challengeParam.question
 			: "";
 	}
@@ -30,7 +27,10 @@ class SecurityView extends Component {
 			})
 			.catch((err) => {
 				console.log(err);
-                this.props.history.push("/login");
+				this.props.history.push({
+					pathname: "/login",
+					search: "?secwrong=true",
+				});
 			});
 	};
 
@@ -41,7 +41,6 @@ class SecurityView extends Component {
 	};
 
 	render() {
-		// TODO: Add forgot password link
 		return (
 			<div className="forms">
 				<h1>Security Question</h1>
