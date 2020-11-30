@@ -52,12 +52,6 @@ class StoreView extends Component {
     }
 
     updateInventoryItem(listing) {
-        // "inventoryId":
-        // "amount": 
-        // "price": 
-        // "priceUnit": 
-        // "productDesc": 
-        // "productName":
         console.log(listing);
         console.log("updating...");
         var myHeaders = new Headers();

@@ -26,12 +26,6 @@ class ConsumerView extends Component {
     }
 
     updateCart(inventoryId, amount, userId, orderId, productName) {
-        // {
-        //     "amount": "6", //needs to be less than the number of it in the inventory
-        //     "inventoryId": "1", //needs to be a stockId
-        //     "orderId": "5", //put as anything
-        //     "userId": "1" 
-        // }
         console.log("Moving item from inventory to cart");
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -54,7 +48,7 @@ class ConsumerView extends Component {
             .then(response => response.text())
             .then(result => {
                 console.log(JSON.parse(result));
-                this.getListings(1);
+                this.getListings(this.state.storeId);
                 this.getUsersCart(1);
             })
             .catch(error => console.log('error', error));
@@ -126,7 +120,10 @@ class ConsumerView extends Component {
     }
     
     componentDidMount() {
-        this.getListings(1);
+        const storeId = this.props.location.state.storeId;
+        console.log(storeId);
+        this.setState({ storeId: storeId });
+        this.getListings(storeId);
         this.getUsersCart(1);
     }
 

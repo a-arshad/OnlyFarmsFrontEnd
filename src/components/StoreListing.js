@@ -7,12 +7,14 @@ class StoreListing extends React.Component {
     render() {
         return(
             <div>
-                <Card bg={'light'} style={{marginLeft:"5vh", marginRight:"5vh", marginBottom:"2vh", width: "30%" }}>
-                    <Card.Title>{this.props.name}</Card.Title>
-                    <Card.Body>
-                        <h6>{this.props.description}</h6>
-                    </Card.Body>
-                </Card>
+                <a style={{ cursor: "pointer" }} onClick={() => this.props.handleStoreClick(this.props.storeId)}>
+                    <Card bg={'light'} style={{marginLeft:"5vh", marginRight:"5vh", marginBottom:"2vh", width: "30%" }}>
+                        <Card.Title>{this.props.name}</Card.Title>
+                        <Card.Body>
+                            <h6>{this.props.description}</h6>
+                        </Card.Body>
+                    </Card>
+                </a>
             </div>
         );
     }

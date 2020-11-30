@@ -12,6 +12,14 @@ class DirectoryView extends Component {
         }
     }
 
+    handleStoreClick(storeId) {
+        console.log("hello!")
+        this.props.history.push({
+            pathname: "/consumer",
+            state: { storeId: storeId },
+        });
+    }
+
     componentDidMount() {
         console.log("getting stores...");
         var myHeaders = new Headers();
@@ -20,7 +28,7 @@ class DirectoryView extends Component {
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
-            body: {},
+            body: JSON.stringify({}),
             redirect: 'follow'
         };
         // make API call with parameters and use promises to get response
@@ -40,9 +48,10 @@ class DirectoryView extends Component {
         this.state.stores.forEach(
             element => storeListings.push(<StoreListing
                                             key={element["userId"]}
-                                            id={element["userId"]}
+                                            storeId={element["userId"]}
                                             name={element["storeName"]} 
                                             description={element["storeDesc"]}
+                                            handleStoreClick={this.handleStoreClick.bind(this)}
                                     />));
 
         return (
