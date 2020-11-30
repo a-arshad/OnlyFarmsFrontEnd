@@ -2,7 +2,7 @@ import './App.css';
 import React, { Component } from 'react';
 import { Route, HashRouter } from 'react-router-dom';
 import Header from './components/Header'
-import HomeView from './components/HomeView';
+import DirectoryView from './components/DirectoryView';
 import ConsumerView from './components/ConsumerView';
 import StoreView from './components/StoreView';
 import RegisterView from './components/RegisterView';
@@ -39,7 +39,7 @@ class App extends Component {
         <div className="App">
           <div className="content">
             <Header auth={loginProps} />
-            <Route exact path="/" render={(props) => <HomeView {...props} auth={loginProps} /> } />
+            <Route exact path="/" render={(props) => <DirectoryView {...props} auth={loginProps} /> } />
             <Route path="/consumer" render={(props) => <ConsumerView {...props} auth={loginProps} /> } />
             <Route path="/store" render={(props) => <StoreView {...props} auth={loginProps} /> } />
             <Route path="/register" render={(props) => <RegisterView {...props} auth={loginProps} /> } />
