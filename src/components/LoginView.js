@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import "./Forms.css";
@@ -14,6 +14,7 @@ class LoginView extends Component {
 			securityAnswer2: "",
 			errors: {
 				cognito: null,
+				awsResponseError: false,
 			},
 		};
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,14 +24,17 @@ class LoginView extends Component {
 		this.setState({
 			errors: {
 				cognito: null,
+				awsResponseError: false,
 			},
 		});
 	};
 
 	handleSubmit = async (event) => {
 		console.log("handle submit start");
+		this.props.history.replace({
+			search: "",
+		});
 		this.clearErrorState();
-		console.log("PAIN");
 		try {
 			Auth.configure({
 				authenticationFlowType: "CUSTOM_AUTH",
@@ -49,7 +53,16 @@ class LoginView extends Component {
 						console.log(user);
 					}
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => {
+					console.log(err);
+					this.setState({
+						errors: {
+							...this.state.errors,
+							awsResponseError: true,
+							awsResponseErrorMessage: err.message,
+						},
+					});
+				});
 		} catch (e) {
 			console.log(e);
 			let error = null;
@@ -60,6 +73,7 @@ class LoginView extends Component {
 					cognito: error,
 				},
 			});
+			console.log("WTF");
 		}
 		console.log("handle submit end");
 	};
@@ -84,12 +98,25 @@ class LoginView extends Component {
 						/>
 					</Form.Group>
 					<Form.Group controlId="password" onChange={this.onInputChange}>
-						<Form.Control
-							type="password"
-							placeholder="Password"
-							required
-						/>
+						<Form.Control type="password" placeholder="Password" required />
 					</Form.Group>
+					<Alert
+						show={this.state.errors.awsResponseError === true}
+						variant="danger"
+					>
+						<p>{this.state.errors.awsResponseErrorMessage}</p>
+					</Alert>
+					<Alert
+						show={new URLSearchParams(this.props.location.search).get(
+							"secwrong"
+						)}
+						variant="danger"
+					>
+						<p>
+							You have answered your security question incorrect. <br></br>
+							Please try again.
+						</p>
+					</Alert>
 					<NavLink to="/forgotpassword">Forgot Password?</NavLink>
 					<br />
 					<br />
