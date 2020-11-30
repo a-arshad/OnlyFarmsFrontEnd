@@ -6,11 +6,8 @@ import { INVENTORY_MS, CART_MS } from '../constants/url';
 class ConsumerView extends Component {
     constructor() {
         super();
-        this.state={
-            listings: [],
-            cart:[]
-        }
         this.state = {
+            storeId: 1,
             listings: [
                 {
                   "inventoryId": 1,
@@ -26,13 +23,7 @@ class ConsumerView extends Component {
     }
 
     updateCart(inventoryId, amount, userId, orderId, productName) {
-        // {
-        //     "amount": "6", //needs to be less than the number of it in the inventory
-        //     "inventoryId": "1", //needs to be a stockId
-        //     "orderId": "5", //put as anything
-        //     "userId": "1" 
-        // }
-        console.log("Moving item from inventory to cart");
+        console.log("Moving item from inventory to cart " + userId);
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({
@@ -54,14 +45,14 @@ class ConsumerView extends Component {
             .then(response => response.text())
             .then(result => {
                 console.log(JSON.parse(result));
-                this.getListings(1);
-                this.getUsersCart(1);
+                this.getListings(this.state.storeId);
+                this.getUsersCart(userId);
             })
             .catch(error => console.log('error', error));
     }
 
     getUsersCart(userId) {
-        console.log("Getting users carts");
+        console.log("Getting user " + userId + "'s carts");
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({
@@ -159,14 +150,16 @@ class ConsumerView extends Component {
             .then(response => response.text())
             .then(result => {
                 console.log(JSON.parse(result));
-                this.getListings(1);
+                this.getListings(this.state.storeId);
                 this.getUsersCart(1);
             })
             .catch(error => console.log("error", error));
     }
     
     componentDidMount() {
-        this.getListings(1);
+        const storeId = this.props.location.state.storeId;
+        this.setState({ storeId: storeId });
+        this.getListings(storeId);
         this.getUsersCart(1);
     }
 
@@ -178,7 +171,7 @@ class ConsumerView extends Component {
         console.log(cartItems);
         return (
             <div>
-                <h1>User {this.state.listings[0]["storeId"]}'s Store</h1>
+                <h1>{this.props.location.state.storeName}</h1>
                 <ListingTable isConsumer={true} listings={this.state.listings} addToCart={this.addToCart.bind(this)}/>
                 <Button onClick={() => this.checkout(1)}>Checkout</Button>
                 <div><h4>Cart:</h4> {cartItems}</div>
