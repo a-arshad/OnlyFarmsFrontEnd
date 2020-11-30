@@ -25,7 +25,7 @@ class ConsumerView extends Component {
         };
     }
 
-    updateCart(inventoryId, amount, userId, orderId) {
+    updateCart(inventoryId, amount, userId, orderId, productName) {
         // {
         //     "amount": "6", //needs to be less than the number of it in the inventory
         //     "inventoryId": "1", //needs to be a stockId
@@ -39,7 +39,8 @@ class ConsumerView extends Component {
             "inventoryId": inventoryId,
             "orderId": orderId,
             "userId": userId,
-            "amount": amount
+            "amount": amount,
+            "productName": productName
         });
 
         var requestOptions = {
@@ -53,6 +54,8 @@ class ConsumerView extends Component {
             .then(response => response.text())
             .then(result => {
                 console.log(JSON.parse(result));
+                this.getListings(1);
+                this.getUsersCart(1);
             })
             .catch(error => console.log('error', error));
     }
@@ -75,37 +78,22 @@ class ConsumerView extends Component {
         fetch(CART_MS + "/allcart", requestOptions)
             .then(response => response.text())
             .then(result => {
-                var l = JSON.parse(result); //show all user's cart
-                console.log(l);
+                var cart = JSON.parse(result)[0]; //show all user's cart
+                this.setState({cart: cart}, () => console.log(this.state.cart));
             })
             .catch(error => console.log('error', error));
     }
 
     addToCart(inventoryId, productName, quantity) {
-        var newCart = this.state.cart;
-        // console.log("test add item from inventory");
-        // this.updateCart(inventoryId, 3, 1, 1); //change amount. check if its already in cart
-        for (let i=0; i < newCart.length; i++) {
-            if (newCart[i].inventoryId === inventoryId) {
-                newCart[i].quantity += quantity;
-                this.setState({
-                    cart: newCart
-                })
-                return;
-            }
-        }
-
-        var newCartItem = {'inventoryId': inventoryId, 'productName': productName, 'quantity': quantity};
-        newCart.push(newCartItem);
-        this.setState({
-            cart: newCart
-        })
+        this.updateCart(inventoryId, quantity, 1, 1, productName);
     }
 
     removeFromCart(productName) {
         var newCart = this.state.cart;
         for (let i=0; i < newCart.length; i++) {
             if (newCart[i].productName === productName) {
+                console.log(newCart[i]);
+                console.log(productName);
                 newCart.splice(i, 1);
                 this.setState({
                     cart: newCart
@@ -114,13 +102,12 @@ class ConsumerView extends Component {
         }
     }
 
-    componentDidMount() {
-        // this.getUsersCart(1);
+    getListings(storeId) {
         console.log("getting store inventory...");
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({
-            "storeId": "1"
+            "storeId": storeId.toString()
         });
         var requestOptions = {
             method: 'POST',
@@ -132,16 +119,23 @@ class ConsumerView extends Component {
         fetch(INVENTORY_MS + "/inventory", requestOptions)
             .then(response => response.text())
             .then(result => {
-                var l = JSON.parse(result)[0]
-                this.setState({listings: l});
+                var listings = JSON.parse(result)[0];
+                this.setState({listings: listings});
             })
             .catch(error => console.log('error', error));
+    }
+    
+    componentDidMount() {
+        this.getListings(1);
+        this.getUsersCart(1);
     }
 
     render() {
         var cartItems = [];
-        this.state.cart.forEach(element => cartItems.push(<h6 key={element}>{element.productName}: {element.quantity}&nbsp;
+        console.log(this.state.cart);
+        this.state.cart.forEach(element => cartItems.push(<h6 key={element.cartItemId}>{element.productName}: {element.amount}&nbsp;
             <button onClick={() => this.removeFromCart(element.productName)}>Remove from cart</button></h6>));
+        console.log(cartItems);
         return (
             <div>
                 <h1>User {this.state.listings[0]["storeId"]}'s Store</h1>
