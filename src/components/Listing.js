@@ -9,7 +9,7 @@ class Listing extends React.Component {
     constructor() {
         super();
         this.state = {
-            selectionValue: null
+            selectionValue: 1
         };
 
     }
