@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { Auth } from "aws-amplify";
-import FormErrors from "../components/FormErrors";
-import Validate from "../components/FormValidation";
-import userEvent from "@testing-library/user-event";
 
 class ChangePasswordConfirmView extends Component {
 	render() {

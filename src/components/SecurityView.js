@@ -5,12 +5,9 @@ import { Auth } from "aws-amplify";
 class SecurityView extends Component {
 	constructor() {
 		super();
-		// super(props);
 		this.state = {
 			answer: "",
-			// question: this.props.location.state.user.challengeParam.question
 		};
-		// this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	checkUser(props) {
@@ -41,7 +38,6 @@ class SecurityView extends Component {
 	};
 
 	render() {
-		// TODO: Add forgot password link
 		return (
 			<div className="forms">
 				<h1>Security Question</h1>

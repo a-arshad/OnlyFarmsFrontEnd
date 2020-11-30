@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { Auth } from "aws-amplify";
-import FormErrors from "../components/FormErrors";
-import Validate from "../components/FormValidation";
 
 class ForgotPasswordView extends Component {
 	constructor() {
@@ -12,7 +10,6 @@ class ForgotPasswordView extends Component {
 			email: "",
 			errors: {
 				cognito: null,
-				blankfield: false,
 			},
 		};
 	}
@@ -21,7 +18,6 @@ class ForgotPasswordView extends Component {
 		this.setState({
 			errors: {
 				cognito: null,
-				blankfield: false,
 			},
 		});
 	};
@@ -29,19 +25,14 @@ class ForgotPasswordView extends Component {
 	handleSubmit = async (event) => {
 		event.preventDefault();
 
-		// Form validation
 		this.clearErrorState();
-		const error = Validate(event, this.state);
-		if (error) {
-			this.setState({
-				errors: { ...this.state.errors, ...error },
-			});
-		}
 
-		// AWS Cognito integration here
 		try {
 			await Auth.forgotPassword(this.state.email);
-			this.props.history.push("/forgotpasswordverification");
+			this.props.history.push({
+				pathname: "/forgotpasswordverification",
+				state: { email: this.state.email },
+			});
 		} catch (error) {
 			console.log(error);
 		}
@@ -51,7 +42,6 @@ class ForgotPasswordView extends Component {
 		this.setState({
 			[event.target.id]: event.target.value,
 		});
-		document.getElementById(event.target.id).classList.remove("is-danger");
 	};
 
 	render() {
@@ -69,6 +59,7 @@ class ForgotPasswordView extends Component {
 								type="email"
 								placeholder="Enter email"
 								onChange={this.onInputChange}
+								required
 							/>
 						</Form.Group>
 						<NavLink to="/login">Back to login</NavLink>

@@ -71,7 +71,6 @@ class LoginView extends Component {
 	};
 
 	render() {
-		// TODO: Add forgot password link
 		return (
 			<div className="forms">
 				<h1>Login</h1>
@@ -81,10 +80,15 @@ class LoginView extends Component {
 							type="email"
 							placeholder="Enter email"
 							onChange={this.onInputChange}
+							required
 						/>
 					</Form.Group>
 					<Form.Group controlId="password" onChange={this.onInputChange}>
-						<Form.Control type="password" placeholder="Password" />
+						<Form.Control
+							type="password"
+							placeholder="Password"
+							required
+						/>
 					</Form.Group>
 					<NavLink to="/forgotpassword">Forgot Password?</NavLink>
 					<br />

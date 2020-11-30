@@ -6,6 +6,7 @@ import HomeView from "./components/HomeView";
 import ConsumerView from "./components/ConsumerView";
 import StoreView from "./components/StoreView";
 import RegisterView from "./components/RegisterView";
+import RegisterSuccessView from "./components/RegisterSuccessView";
 import LoginView from "./components/LoginView";
 import SecurityView from "./components/SecurityView";
 import ForgotPasswordView from "./components/ForgotPasswordView";
@@ -34,7 +35,7 @@ class App extends Component {
 
 	async componentDidMount() {
 		try {
-			const session = await Auth.currentSession();
+			await Auth.currentSession();
 			this.setLoginStatus(true);
 			const user = await Auth.currentAuthenticatedUser();
 			this.setUser(user);
@@ -74,9 +75,11 @@ class App extends Component {
 							/>
 							<Route
 								path="/register"
-								render={(props) => (
-									<RegisterView {...props} auth={loginProps} />
-								)}
+								render={(props) => (<RegisterView {...props} auth={loginProps} />)}
+							/>
+							<Route
+								path="/registerSuccess"
+								render={(props) => (<RegisterSuccessView {...props} auth={loginProps} />)}
 							/>
 							<Route
 								path="/login"
@@ -97,10 +100,7 @@ class App extends Component {
 							<Route
 								path="/forgotpasswordverification"
 								render={(props) => (
-									<ForgotPasswordVerificationView
-										{...props}
-										auth={loginProps}
-									/>
+									<ForgotPasswordVerificationView {...props} auth={loginProps} />
 								)}
 							/>
 							<Route

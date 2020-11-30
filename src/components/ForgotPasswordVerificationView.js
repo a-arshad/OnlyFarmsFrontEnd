@@ -1,19 +1,15 @@
 import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { Form, Button, Alert } from "react-bootstrap";
 import { Auth } from "aws-amplify";
-import FormErrors from "../components/FormErrors";
-import Validate from "../components/FormValidation";
-import userEvent from "@testing-library/user-event";
 
 class ForgotPasswordVerificationView extends Component {
 	state = {
-		verificationcode: "",
-		email: "",
-		newpassword: "",
+		verificationCode: "",
+		newPassword: "",
+		confirmPassword: "",
 		errors: {
 			cognito: null,
-			blankfield: false,
+			passwordMatch: true,
 		},
 	};
 
@@ -21,37 +17,45 @@ class ForgotPasswordVerificationView extends Component {
 		this.setState({
 			errors: {
 				cognito: null,
-				blankfield: false,
+				passwordMatch: true,
 			},
 		});
 	};
 
+	validatePasswords() {
+        return (this.state.newPassword === this.state.confirmPassword);
+    }
+
 	passwordVerificationHandler = async (event) => {
 		event.preventDefault();
+
 		this.clearErrorState();
-		const error = Validate(event, this.state);
-		if (error) {
-			this.setState({
-				errors: { ...this.state.errors, ...error },
-			});
-		}
-		try {
-			await Auth.forgotPasswordSubmit(
-				this.state.email,
-				this.state.verificationcode,
-				this.state.newpassword
-			);
-			this.props.history.push("/passwordconfirm");
-		} catch (error) {
-			console.log(error);
-		}
+
+		this.setState({
+            errors: {
+                ...this.state.errors,
+                passwordMatch: this.validatePasswords(),
+            },
+		});
+		
+		if (this.state.errors.passwordMatch) {
+			try {
+				await Auth.forgotPasswordSubmit(
+					this.props.location.state.email,
+					this.state.verificationCode,
+					this.state.newPassword
+				);
+				this.props.history.push("/passwordconfirm");
+			} catch (error) {
+				console.log(error);
+			}
+		}	
 	};
 
 	onInputChange = (event) => {
 		this.setState({
 			[event.target.id]: event.target.value,
 		});
-		document.getElementById(event.target.id).classList.remove("is-danger");
 	};
 
 	render() {
@@ -65,21 +69,38 @@ class ForgotPasswordVerificationView extends Component {
 					</p>
 					<Form onSubmit={this.passwordVerificationHandler}>
 						<Form.Group
-							controlId="verificationcode"
+							controlId="verificationCode"
 							onChange={this.onInputChange}
+							required
 						>
 							<Form.Control placeholder="Enter verification code" />
 						</Form.Group>
-						<Form.Group controlId="email">
+
+						<Form.Group controlId="newPassword" onChange={this.onInputChange}>
+                        	<Form.Label>Password</Form.Label>
+							<Form.Control 
+								type="password"
+								placeholder="Password"
+								required
+							/>
+                   		</Form.Group>
+						<small>
+							Passwords must be at least of length 8 and contain: 
+							an uppercase, a lowercase, a special character and a number
+						</small>
+
+						<Form.Group controlId="confirmPassword" onChange={this.onInputChange}>
+							<Form.Label>Confirm Password</Form.Label>
 							<Form.Control
-								type="email"
-								placeholder="Enter email"
-								onChange={this.onInputChange}
+								type="password"
+								placeholder="Password" 
+								required
 							/>
 						</Form.Group>
-						<Form.Group controlId="newpassword" onChange={this.onInputChange}>
-							<Form.Control type="password" placeholder="New password" />
-						</Form.Group>
+						<Alert show={this.state.errors.passwordMatch === false} variant="danger">
+							<p>Error: passwords do not match.</p>
+						</Alert>
+						
 						<Button variant="primary" type="submit">
 							Submit
 						</Button>

@@ -63,7 +63,7 @@ class RegisterView extends Component {
                 });
 
                 console.log("resp: " + signUpResponse);
-                this.props.history.push("/");
+                this.props.history.push({ pathname: "/registerSuccess" });
             } catch(e) {
                 console.log(e);
                 let error = null;
@@ -113,12 +113,16 @@ class RegisterView extends Component {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password" required/>
                     </Form.Group>
+                    <small>
+							Passwords must be at least of length 8 and contain: 
+							an uppercase, a lowercase, a special character and a number
+                    </small>
 
                     <Form.Group controlId="confirmPassword" onChange={this.onInputChange}>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Confirm Password" required/>
+                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Control type="password" placeholder="Password" required/>
                     </Form.Group>
-                    <Alert show={!this.state.errors.passwordMatch} variant="danger">
+                    <Alert show={this.state.errors.passwordMatch === false} variant="danger">
                         <p>Error: passwords do not match.</p>
                     </Alert>
 
