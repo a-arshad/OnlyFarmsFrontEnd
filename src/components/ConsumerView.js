@@ -38,7 +38,7 @@ class ConsumerView extends Component {
         var raw = JSON.stringify({
             "inventoryId": inventoryId,
             "orderId": orderId,
-            "userId": userId,
+            "userId": userId.toString(),
             "amount": amount,
             "productName": productName
         });
@@ -88,18 +88,32 @@ class ConsumerView extends Component {
         this.updateCart(inventoryId, quantity, 1, 1, productName);
     }
 
-    removeFromCart(productName) {
-        var newCart = this.state.cart;
-        for (let i=0; i < newCart.length; i++) {
-            if (newCart[i].productName === productName) {
-                console.log(newCart[i]);
-                console.log(productName);
-                newCart.splice(i, 1);
-                this.setState({
-                    cart: newCart
-                })
-            }
+    removeFromCart(cartItemId, inventoryId, amount) {
+        console.log("removing item from cart");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+            "cartItemId": cartItemId,
+            "inventoryId": inventoryId,
+            "amount": amount
+        })
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
         }
+
+        fetch(CART_MS + "/removeitem", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(JSON.parse(result));
+                this.getListings(1);
+                this.getUsersCart(1);
+            })
+            .catch(error => console.log('error', error));
+        
     }
 
     getListings(storeId) {
@@ -120,9 +134,35 @@ class ConsumerView extends Component {
             .then(response => response.text())
             .then(result => {
                 var listings = JSON.parse(result)[0];
+                console.log(listings);
                 this.setState({listings: listings});
             })
             .catch(error => console.log('error', error));
+    }
+
+    checkout(userId) {
+        console.log("checking out items");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+            "userId": userId.toString()
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        
+        fetch(CART_MS + "/checkout", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(JSON.parse(result));
+                this.getListings(1);
+                this.getUsersCart(1);
+            })
+            .catch(error => console.log("error", error));
     }
     
     componentDidMount() {
@@ -134,13 +174,13 @@ class ConsumerView extends Component {
         var cartItems = [];
         console.log(this.state.cart);
         this.state.cart.forEach(element => cartItems.push(<h6 key={element.cartItemId}>{element.productName}: {element.amount}&nbsp;
-            <button onClick={() => this.removeFromCart(element.productName)}>Remove from cart</button></h6>));
+            <button onClick={() => this.removeFromCart(element.cartItemId, element.inventoryId, element.amount)}>Remove from cart</button></h6>));
         console.log(cartItems);
         return (
             <div>
                 <h1>User {this.state.listings[0]["storeId"]}'s Store</h1>
                 <ListingTable isConsumer={true} listings={this.state.listings} addToCart={this.addToCart.bind(this)}/>
-                <Button onClick={() => alert("Checkout clicked")}>Checkout</Button>
+                <Button onClick={() => this.checkout(1)}>Checkout</Button>
                 <div><h4>Cart:</h4> {cartItems}</div>
             </div>
         );
