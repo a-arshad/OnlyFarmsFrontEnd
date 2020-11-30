@@ -12,11 +12,11 @@ class DirectoryView extends Component {
         }
     }
 
-    handleStoreClick(storeId) {
+    handleStoreClick(storeId, storeName) {
         console.log("hello!")
         this.props.history.push({
             pathname: "/consumer",
-            state: { storeId: storeId },
+            state: { storeId: storeId, storeName: storeName },
         });
     }
 

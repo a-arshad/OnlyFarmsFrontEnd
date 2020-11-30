@@ -7,7 +7,7 @@ class StoreListing extends React.Component {
     render() {
         return(
             <div>
-                <a style={{ cursor: "pointer" }} onClick={() => this.props.handleStoreClick(this.props.storeId)}>
+                <a style={{ cursor: "pointer" }} onClick={() => this.props.handleStoreClick(this.props.storeId, this.props.name)}>
                     <Card bg={'light'} style={{marginLeft:"5vh", marginRight:"5vh", marginBottom:"2vh", width: "30%" }}>
                         <Card.Title>{this.props.name}</Card.Title>
                         <Card.Body>
