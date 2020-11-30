@@ -78,22 +78,13 @@ class ConsumerView extends Component {
         fetch(CART_MS + "/allcart", requestOptions)
             .then(response => response.text())
             .then(result => {
-                var l = JSON.parse(result)[0]; //show all user's cart
-                this.setState({cart: l}, () => console.log(this.state.cart));
+                var cart = JSON.parse(result)[0]; //show all user's cart
+                this.setState({cart: cart}, () => console.log(this.state.cart));
             })
             .catch(error => console.log('error', error));
     }
 
     addToCart(inventoryId, productName, quantity) {
-        console.log("test add item from inventory");
-        for (let i=0; i < this.state.cart.length; i++) {
-            if (this.state.cart[i].inventoryId === inventoryId) {
-                console.log("updating existing cart item");
-                this.updateCart(inventoryId, quantity, 1, 1, productName);
-                return;
-            }
-        }
-        console.log("new item being added to cart");
         this.updateCart(inventoryId, quantity, 1, 1, productName);
     }
 
@@ -128,8 +119,8 @@ class ConsumerView extends Component {
         fetch(INVENTORY_MS + "/inventory", requestOptions)
             .then(response => response.text())
             .then(result => {
-                var l = JSON.parse(result)[0];
-                this.setState({listings: l});
+                var listings = JSON.parse(result)[0];
+                this.setState({listings: listings});
             })
             .catch(error => console.log('error', error));
     }
