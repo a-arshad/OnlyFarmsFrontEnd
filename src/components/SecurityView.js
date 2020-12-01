@@ -20,7 +20,7 @@ class SecurityView extends Component {
 		const user = this.props.location.state.user;
 		Auth.sendCustomChallengeAnswer(user, this.state.answer)
 			.then((user) => {
-				console.log(user);
+				console.log("Authentication Successful");
 				this.props.auth.setLoginStatus(true);
 				this.props.auth.setUser(user);
 				this.props.history.push("/");

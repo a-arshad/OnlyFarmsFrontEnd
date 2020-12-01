@@ -30,7 +30,6 @@ class LoginView extends Component {
 	};
 
 	handleSubmit = async (event) => {
-		console.log("handle submit start");
 		this.props.history.replace({
 			search: "",
 		});
@@ -39,10 +38,9 @@ class LoginView extends Component {
 			Auth.configure({
 				authenticationFlowType: "CUSTOM_AUTH",
 			});
-			console.log("HELLO");
-			const user = Auth.signIn(this.state.email, this.state.password)
+			console.log("Authenticating...")
+			Auth.signIn(this.state.email, this.state.password)
 				.then((user) => {
-					console.log("GG");
 					if (user.challengeName === "CUSTOM_CHALLENGE") {
 						// to send the answer of the custom challenge
 						this.props.history.push({
@@ -73,9 +71,7 @@ class LoginView extends Component {
 					cognito: error,
 				},
 			});
-			console.log("WTF");
 		}
-		console.log("handle submit end");
 	};
 
 	onInputChange = (event) => {

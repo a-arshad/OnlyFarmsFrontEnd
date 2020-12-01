@@ -16,7 +16,7 @@ class DirectoryView extends Component {
         console.log("hello!")
         this.props.history.push({
             pathname: "/consumer",
-            state: { storeId: storeId, storeName: storeName },
+            search: "?storeId=" + storeId + "&storeName=" + storeName,
         });
     }
 
