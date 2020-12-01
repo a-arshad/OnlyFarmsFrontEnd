@@ -22,10 +22,11 @@ class Header extends Component {
 						<NavLink exact to="/" style={{ paddingRight: 20 }}>
 							Home
 						</NavLink>
-						<NavLink to="/store" style={{ paddingRight: 20 }}>
-							StoreView
-						</NavLink>
-						<NavLink to="/consumer">ConsumerView</NavLink>
+						{this.props.auth.isLoggedIn && this.props.auth.user && 
+							<NavLink to="/store" style={{ paddingRight: 20 }}>
+								StoreView
+							</NavLink>
+						}
 					</Nav>
 					<Nav>
 						{this.props.auth.isLoggedIn && this.props.auth.user ? (

@@ -8,6 +8,7 @@ class ConsumerView extends Component {
         super();
         this.state = {
             storeId: 1,
+            storeName: "Loading...",
             listings: [
                 {
                   "inventoryId": 1,
@@ -157,8 +158,10 @@ class ConsumerView extends Component {
     }
     
     componentDidMount() {
-        const storeId = this.props.location.state.storeId;
-        this.setState({ storeId: storeId });
+        const params = new URLSearchParams(this.props.location.search);
+        const storeId = params.get("storeId");
+        const storeName = params.get("storeName");        
+        this.setState({ storeId: storeId, storeName: storeName });
         this.getListings(storeId);
         this.getUsersCart(1);
     }
@@ -171,7 +174,7 @@ class ConsumerView extends Component {
         console.log(cartItems);
         return (
             <div>
-                <h1>{this.props.location.state.storeName}</h1>
+                <h1>{this.state.storeName}</h1>
                 <ListingTable isConsumer={true} listings={this.state.listings} addToCart={this.addToCart.bind(this)}/>
                 <Button onClick={() => this.checkout(1)}>Checkout</Button>
                 <div><h4>Cart:</h4> {cartItems}</div>

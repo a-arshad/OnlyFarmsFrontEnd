@@ -91,8 +91,6 @@ class StoreView extends Component {
     }
 
     onCancel() {
-        console.log("listings: " + this.state.listings);
-        console.log("oldlistings: " + this.state.oldListings);
         this.setState({
             isEditMode: false,
             listings: this.state.oldListings
@@ -100,7 +98,6 @@ class StoreView extends Component {
     }
 
     render() {
-        console.log("render")
         return (
             <div>
                 <h1>This is your Store Page!</h1>
