@@ -19,12 +19,12 @@ class Header extends Component {
 			<Navbar bg="light">
 				<Navbar.Collapse id="navbar">
 					<Nav className="mr-auto">
-						<NavLink exact to="/" style={{ paddingRight: 20 }}>
+						<NavLink exact to="/dir" style={{ paddingRight: 20 }}>
 							Home
 						</NavLink>
 						{this.props.auth.isLoggedIn && this.props.auth.user && 
 							<NavLink to="/store" style={{ paddingRight: 20 }}>
-								StoreView
+								Your Listed Items
 							</NavLink>
 						}
 					</Nav>

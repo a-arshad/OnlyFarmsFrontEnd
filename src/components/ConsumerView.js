@@ -101,7 +101,7 @@ class ConsumerView extends Component {
             .then(response => response.text())
             .then(result => {
                 console.log(JSON.parse(result));
-                this.getListings(1);
+                this.getListings(this.state.storeId);
                 this.getUsersCart(1);
             })
             .catch(error => console.log('error', error));

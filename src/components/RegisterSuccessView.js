@@ -8,7 +8,7 @@ class RegisterSuccessView extends Component {
 				<div className="forms">
 					<h1>Registration Successful</h1>
 					<p>Check your email for a link to verfy your account.</p>
-					<NavLink to="/">Return to home</NavLink>
+					<NavLink to="/dir">Return to home</NavLink>
 				</div>
 			</section>
 		);

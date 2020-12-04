@@ -8,7 +8,7 @@ class ChangePasswordConfirmView extends Component {
 				<div className="forms">
 					<h1>Change Password</h1>
 					<p>Your password has been successfully updated! 😊</p>
-					<NavLink to="/">Return to home</NavLink>
+					<NavLink to="/dir">Return to home</NavLink>
 				</div>
 			</section>
 		);

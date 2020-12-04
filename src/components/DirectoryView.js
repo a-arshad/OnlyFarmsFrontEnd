@@ -53,10 +53,11 @@ class DirectoryView extends Component {
                                             description={element["storeDesc"]}
                                             handleStoreClick={this.handleStoreClick.bind(this)}
                                     />));
-
+        
         return (
             <div>
                 <h1>Welcome to OnlyFarms</h1>
+                <h5 style= {{marginBottom: '2rem'}}> Support sustainable farming and reduce your carbon footprint. </h5>
                 {storeListings}
             </div>
         );

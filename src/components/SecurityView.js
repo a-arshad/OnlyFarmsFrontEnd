@@ -23,7 +23,7 @@ class SecurityView extends Component {
 				console.log("Authentication Successful");
 				this.props.auth.setLoginStatus(true);
 				this.props.auth.setUser(user);
-				this.props.history.push("/");
+				this.props.history.push("/dir");
 			})
 			.catch((err) => {
 				console.log(err);
