@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Nav, Navbar } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import { Auth } from "aws-amplify";
 
 class Header extends Component {
@@ -15,6 +15,7 @@ class Header extends Component {
 	};
 
 	render() {
+		if (this.props.location.pathname === '/dir') return null;
 		return (
 			<Navbar bg="light">
 				<Navbar.Collapse id="navbar">
@@ -51,4 +52,4 @@ class Header extends Component {
 	}
 }
 
-export default Header;
+export default withRouter(Header);
