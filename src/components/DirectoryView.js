@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Container, Row, Col } from "react-bootstrap";
 import StoreListing from "./StoreListing"
+import Banner from "./Banner"
 import { INVENTORY_MS } from '../constants/url';
 
 
@@ -42,23 +44,34 @@ class DirectoryView extends Component {
     }
 
     render() {
-        
+        console.log("oh damn" + this.props.location.pathname)
+
         let storeListings = [];
 
         this.state.stores.forEach(
-            element => storeListings.push(<StoreListing
-                                            key={element["userId"]}
-                                            storeId={element["userId"]}
-                                            name={element["storeName"]} 
-                                            description={element["storeDesc"]}
-                                            handleStoreClick={this.handleStoreClick.bind(this)}
-                                    />));
+            element => storeListings.push(
+                <Col md={6} key={element["userId"]}>
+                    <StoreListing
+                        key={element["userId"]}
+                        storeId={element["userId"]}
+                        name={element["storeName"]} 
+                        description={element["storeDesc"]}
+                        handleStoreClick={this.handleStoreClick.bind(this)}/>
+                </Col>)
+            );
         
         return (
             <div>
-                <h1>Welcome to OnlyFarms</h1>
-                <h5 style= {{marginBottom: '2rem'}}> Support sustainable farming and reduce your carbon footprint. </h5>
-                {storeListings}
+                <Banner auth={this.props.auth}/>
+                <Container>
+                    <Row>
+                        <Col>
+                            <Row>
+                                {storeListings}
+                            </Row>
+                        </Col>
+                    </Row>
+                </Container>
             </div>
         );
     }

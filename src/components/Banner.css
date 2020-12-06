@@ -1,0 +1,38 @@
+.banner{
+    z-index: 0;
+    position: relative;
+    margin-top: 0;
+    padding-top: 0;
+    height: 50vh;
+    width: 100%;
+    background: url("./welcomeImages/farm.jpg");
+    background-size: 100% auto;
+    background-position: left;
+    background-repeat: no-repeat;
+    margin-bottom: 10vh;
+}
+
+.text {
+    z-index: 1;
+    padding-top: 2vh;
+    margin-right: 20vh;
+    right: 0;
+    font-family: "Segoe UI";
+    position: absolute;
+    color: white;
+    text-align: right;
+    margin-top: 0%;
+    word-wrap: normal;
+    text-shadow: 2px 2px 10px black;
+}
+
+.buttons {
+    z-index: 2;
+    position: relative;
+    padding-top: 2vh;
+    float: right;
+    margin-left: auto;
+    margin-right: 30px;
+    padding-bottom: 0%;
+    margin-bottom: 0%;
+}
